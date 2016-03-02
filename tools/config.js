@@ -1,10 +1,10 @@
+import path from 'path';
+
 const isProd = process.env.NODE_ENV === 'production';
 
-const config = {
-  isProd: isProd,
+export default {
+  isProd,
   port: process.env.LIGHTS_PORT || 8080,
-  buildDir: isProd ? 'dist' : 'build',
-  suffix: isProd ? '-[hash].min' : '',
+  outputPath: path.resolve('dist'),
+  publicPath: isProd ? 'assets/' : '/',
 };
-
-module.exports = config;

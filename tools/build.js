@@ -1,22 +1,29 @@
+import path from 'path';
+import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack';
-import {ncp} from 'ncp';
-import del from 'del';
-import config from './config';
 import webpackConfig from './webpack.config';
+import config from './config';
 
 const compiler = webpack(webpackConfig);
-const copy = (src, dest) => new Promise((resolve, reject) => {
-  ncp(src, dest, (err) => err ? reject(err) : resolve());
-});
 
-/*async function copyAssets() {
-  console.log('Copy assets...');
-  console.time('Copy');
-  await Promise.all([
-    copy('src/public', `${config.buildDir}/public`),
-  ]);
-  console.timeEnd('Copy');
-}*/
+if (config.isProd) {
+  compiler.run(webpackRes);
+} else {
+  const server = new WebpackDevServer(compiler, {
+    contentBase: config.outputPath,
+    publicPath: config.publicPath,
+    noInfo: true,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 1000,
+    },
+  });
+
+  const port = config.port || 8080;
+  server.listen(port, 'localhost', () => {
+    console.log(`Serving at port ${port}...`);
+  });
+}
 
 function webpackRes(err, stats) {
   console.log(`Build: ${stats.endTime - stats.startTime}ms`);
@@ -26,19 +33,3 @@ function webpackRes(err, stats) {
       console.log(err);
   }
 }
-
-function build() {
-  if (config.isProd) {
-    console.log('Build and compress...');
-    compiler.run(webpackRes);
-  } else {
-    console.log('Build and watch...');
-    compiler.watch({
-      aggregateTimeout: 300,
-      poll: true,
-    }, webpackRes)
-  }
-}
-
-(config.isProd ? del('dist') : Promise.resolve()).then(build);
-// copyAssets();

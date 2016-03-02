@@ -1,38 +1,40 @@
 import path from 'path';
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import config from './config';
-import revPlugin from './lib/rev.plugin';
 
 export default {
-  context: path.resolve(__dirname, '../src/assets'),
-  entry: './main.js',
+  entry: {
+    main: './src/assets/main.js',
+  },
   output: {
-    path: path.resolve(__dirname, `../${config.buildDir}/assets`),
-    filename: `[name]${config.suffix}.js`,
+    path: path.join(config.outputPath, 'assets'),
+    publicPath: config.publicPath,
+    filename: `[name]${config.isProd ? '-[chunkhash:8]' : ''}.js`,
   },
   module: {
     loaders: [
       {
         test: /\.vue$/,
+        include: path.resolve('src'),
         loader: 'vue',
       }, {
         test: /\.js$/,
-        include: [path.resolve(__dirname, '../src')],
+        include: path.resolve('src'),
         loader: 'babel',
-        query: {
-          presets: ['es2015'],
-        }
       }
     ],
   },
-  babel: {
-    presets: ['es2015', 'stage-0'],
-    plugins: ['transform-runtime'],
-  },
   plugins: [
-    revPlugin,
-    ...(config.isProd ? [
+    new HtmlWebpackPlugin({
+      template: 'src/public/index.html',
+      inject: 'body',
+      ... config.isProd ? {
+        filename: '../index.html',
+      } : {}
+    }),
+    ... config.isProd ? [
       new webpack.optimize.UglifyJsPlugin({minimize: true}),
-    ] : []),
+    ] : [],
   ],
 };
