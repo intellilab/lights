@@ -32,5 +32,15 @@
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.1"
-  }
+  },
+  "main": "index.js",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intellilab/lights.git"
+  },
+  "bugs": {
+    "url": "https://github.com/intellilab/lights/issues"
+  },
+  "homepage": "https://github.com/intellilab/lights#readme"
 }
