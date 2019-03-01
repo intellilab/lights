@@ -1,40 +1,35 @@
 {
   "name": "lights",
   "version": "1.0.0",
+  "private": true,
   "description": "Lights Out game built with vue.js",
+  "author": "Gerald <i@gerald.top>",
   "scripts": {
     "start": "babel-node tools/build.js",
     "clean": "node -e \"require('del')(['dist'])\"",
-    "predeploy": "npm start --production",
-    "deploy": "sh tools/upload.sh"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -td dist",
+    "prebuild": "npm run lint",
+    "lint": "eslint --ext .js,.vue .",
+    "analyze": "plaid analyze",
+    "dev": "plaid develop",
+    "build": "plaid build",
+    "svgo": "plaid svgo"
   },
+  "engines": {
+    "node": ">=8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  },
+  "license": "MIT",
   "keywords": [
     "vue",
     "lights"
   ],
-  "author": "Gerald <i@gerald.top>",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.6.0",
-    "babel-core": "^6.3.15",
-    "babel-loader": "^6.2.0",
-    "babel-plugin-transform-runtime": "^6.3.13",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13",
-    "css-loader": "^0.23.0",
-    "del": "^2.2.0",
-    "html-webpack-plugin": "^2.9.0",
-    "style-loader": "^0.13.0",
-    "vue": "^1.0.10",
-    "vue-hot-reload-api": "^1.2.2",
-    "vue-html-loader": "^1.0.0",
-    "vue-loader": "^7.2.0",
-    "vue-style-loader": "^1.0.0",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.1"
-  },
   "main": "index.js",
-  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intellilab/lights.git"
@@ -42,5 +37,18 @@
   "bugs": {
     "url": "https://github.com/intellilab/lights/issues"
   },
-  "homepage": "https://github.com/intellilab/lights#readme"
+  "homepage": "https://github.com/intellilab/lights#readme",
+  "devDependencies": {
+    "@gera2ld/plaid": "~1.5.6",
+    "@gera2ld/plaid-vue": "~1.5.5",
+    "@gera2ld/plaid-webpack": "~1.5.0",
+    "gh-pages": "^2.2.0",
+    "husky": "^4.2.3"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.8.4",
+    "@gera2ld/rem": "^0.1.2",
+    "core-js": "^3.6.4",
+    "vue": "^2.6.11"
+  }
 }
