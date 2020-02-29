@@ -1,1 +1,1 @@
-.row:after{content:"";display:block;clear:both}.item{float:left;width:32px;height:32px;margin-top:-1px;margin-right:-1px;border:1px solid grey}
+h1{font-size:.48rem}.row:after{content:"";display:block;clear:both}.item{float:left;width:.32rem;height:.32rem;margin-top:-1px;margin-right:-1px;border:1px solid grey}*{margin:0;padding:0;box-sizing:border-box}body{font-size:.16rem}.icon{display:inline-block;width:.16rem;height:.16rem;fill:currentColor}
