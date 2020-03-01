@@ -5,7 +5,7 @@ function rand(min, max) {
   return Math.floor(min + (max - min + 1) * Math.random());
 }
 
-class Lights {
+export default class Lights {
   constructor(width = WIDTH, height = HEIGHT) {
     this.width = width;
     this.height = height;
@@ -35,19 +35,20 @@ class Lights {
     );
   }
 
-  turn(row, col) {
-    const index = col == null ? row : row * WIDTH + col;
-    const related = [index - WIDTH, index, index + WIDTH];
-    if (index % WIDTH) related.push(index - 1);
-    if ((index + 1) % WIDTH) related.push(index + 1);
+  turn(index) {
+    const { width } = this;
+    const related = [
+      index - width,
+      index,
+      index + width,
+      index % width ? index - 1 : -1,
+      (index + 1) % width ? index + 1 : -1,
+    ].filter(i => this.cells[i]);
     related.forEach((i) => {
       const cell = this.cells[i];
-      if (cell) {
-        cell.value = !cell.value;
-        this.remain += cell.value ? 1 : -1;
-      }
+      cell.value = !cell.value;
+      this.remain += cell.value ? 1 : -1;
     });
+    return related;
   }
 }
-
-export default Lights;

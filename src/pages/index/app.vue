@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Lights from './lights';
+import Lights from '#/common/lights';
 
 const lights = new Lights();
 
@@ -68,8 +68,8 @@ p {
 .item {
   display: inline-block;
   vertical-align: top;
-  width: 32px;
-  height: 32px;
+  width: 60px;
+  height: 60px;
   border: 1px solid #7f8c8d;
   border-radius: 8px;
   background: #34495e;
